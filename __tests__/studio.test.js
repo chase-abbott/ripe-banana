@@ -1,7 +1,8 @@
 import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
-import Studio from '../models/Studio.js';
+import Studio from '../lib/models/Studio.js';
+import Film from '../lib/models/Film.js';
 
 describe('demo routes', () => {
   beforeEach(() => {
@@ -29,15 +30,11 @@ describe('demo routes', () => {
       updatedAt: expect.any(String),
       createdAt: expect.any(String)
     });
-
-
-
-
   });
 
 
-  it('it gets a studio in the database via GET', async () => {
-    const studio = await Studio.create({
+  it('it gets all studios in the database via GET', async () => {
+    await Studio.create({
       name: 'Ruiz Brothers',
       city: 'Los Angeles',
       state: 'California',
@@ -51,9 +48,33 @@ describe('demo routes', () => {
     }]);
   });
 
-// Paused testing to complete the film resource model and controller
-// Get studio by id depends on this route to be completed
-//continue when FILM RESOURCE IS DONE!!
+  it('gets a studio by it\'s id', async () => {
+    const postRes = await Studio.create({
+      name: 'Ruiz Brothers',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA',
+    });
+
+    await Film.create({
+      title: 'Peaches big adventure',
+      studio: 'Ruiz Brothers',
+      released: 2010
+    });
+
+    const res = await request(app).get(`/api/v1/studios/${postRes.body.id}`);
+
+    expect(res.body).toEqual({
+      ...postRes.body,
+      films: [{
+        id: 1,
+        title: 'Peaches big adventure'
+      }]
+    });
+  });
+  // Paused testing to complete the film resource model and controller
+  // Get studio by id depends on this route to be completed
+  //continue when FILM RESOURCE IS DONE!!
 
 });
 
