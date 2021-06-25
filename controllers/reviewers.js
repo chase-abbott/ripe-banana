@@ -22,4 +22,12 @@ export default Router()
     })
       .then((reviewer) => res.send(reviewer))
       .catch(next);
+  })
+  .put('/api/v1/reviewers/:id', (req, res, next) => {
+    Reviewer.update(req.body, {
+      where: { id: req.params.id },
+      returning: true,
+    })
+      .then(([, reviewer]) => res.send(reviewer[0]))
+      .catch(next);
   });
