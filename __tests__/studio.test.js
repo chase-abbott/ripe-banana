@@ -25,8 +25,8 @@ describe('demo routes', () => {
       city: 'Portland',
       state: 'Oregon',
       country: 'USA',
-      createAt: expect.any(Date),
-      updateAt: expect.any(Date)
+      updatedAt: expect.any(String),
+      createdAt: expect.any(String)
     });
      
 
