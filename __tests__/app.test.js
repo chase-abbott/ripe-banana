@@ -10,11 +10,17 @@ describe('API routes', () => {
   });
 
   describe('Reviewer routes', () => {
+    let reviewer = { name: 'vijay', company: 'f-inverse' };
     it('POSTs a reviewer to /api/v1/reviewers', async () => {
-      const reviewer = { name: 'vijay', company: 'f-inverse' };
       const response = await request.post('/api/v1/reviewers').send(reviewer);
       expect(response.status).toBe(200);
       expect(response.body).toStrictEqual(reviewer);
+      reviewer = response.body;
+    });
+    it('GETs all reviewers from /api/v1/reviewers', async () => {
+      const response = await request.get('/api/v1/reviewer');
+      expect(response.status).toBe(200);
+      expect(response.body).toStrictEqual([reviewer]);
     });
   });
 });
