@@ -1,7 +1,7 @@
 import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
-import Film from '../models/Film.js/index.js';
+
 
 describe('demo routes', () => {
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('demo routes', () => {
     const film = {
       title: 'Peaches big adventure',
       studio: 'Big dog productions',
-      released: '2010'
+      released: 2010
     };
 
 
@@ -25,7 +25,7 @@ describe('demo routes', () => {
       id: 1,
       title: 'Peaches big adventure',
       studio: 'Big dog productions',
-      released: '2010',
+      released: 2010,
       updatedAt: expect.any(String),
       createdAt: expect.any(String)
     });

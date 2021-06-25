@@ -12,16 +12,15 @@ Film.init({
     type: Sequelize.DataTypes.STRING,
     require: true
   },
-  release: {
+  released: {
     type: Sequelize.DataTypes.INTEGER,
     require: true
   }
 },
   {
     sequelize: db,
-    ModelName: 'Studio',
+    modelName: 'Film',
     underscored: true
   });
 
 export default Film;
-
