@@ -22,11 +22,18 @@ describe('API routes', () => {
       expect(response.status).toBe(200);
       expect(response.body).toStrictEqual([reviewer]);
     });
-
     // need to create reviews before testing to get a reviewer by id
     //let review = {rating: 4, review: 'very good', film: }
     it.skip('GET a reviewer by id from /api/v1/reviewers/:id', async () => {
       const response = await request.get(`/api/v1/reviewers/${reviewer.id}`);
+      expect(response.status).toBe(200);
+      expect(response.body).toStrictEqual([reviewer]);
+    });
+    it('PUTs an update to a reviewer at /api/v1/reviewers', async () => {
+      reviewer.company = 'inferencery';
+      const response = await request
+        .put(`/api/v1/reviewers/${reviewer.id}`)
+        .send(reviewer);
       expect(response.status).toBe(200);
       expect(response.body).toStrictEqual([reviewer]);
     });
