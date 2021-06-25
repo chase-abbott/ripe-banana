@@ -4,7 +4,7 @@ import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
 import Film from '../lib/models/Film.js';
 
-describe.skip('Studio routes', () => {
+describe('Studio routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -49,25 +49,36 @@ describe.skip('Studio routes', () => {
     ]);
   });
 
-  it("gets a studio by it's id", async () => {
+  it('gets a studio by it\'s id', async () => {
     const postRes = await Studio.create({
       name: 'Ruiz Brothers',
       city: 'Los Angeles',
       state: 'California',
       country: 'USA',
-    });
+    }, { include: [{
+      association: Studio.Film
+    }] });
 
     await Film.create({
       title: 'Peaches big adventure',
       studio: 'Ruiz Brothers',
-      released: 2010,
+      release: 2010,
+    }, {
+      include: [{
+        association: Film.Studio
+      }]
     });
 
-    const res = await request(app).get(`/api/v1/studios/${postRes.body.id}`);
+    const res = await request(app).get(`/api/v1/studios/${postRes.id}`);
+    console.log(res.body);
 
     expect(res.body).toEqual({
-      ...postRes.body,
-      films: [
+      id: 1,
+      name: 'Ruiz Brothers',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA',
+      Films: [
         {
           id: 1,
           title: 'Peaches big adventure',
@@ -75,7 +86,4 @@ describe.skip('Studio routes', () => {
       ],
     });
   });
-  // Paused testing to complete the film resource model and controller
-  // Get studio by id depends on this route to be completed
-  //continue when FILM RESOURCE IS DONE!!
 });
