@@ -54,15 +54,16 @@ describe('Actor Routes', () => {
       pob: 'Los Angeles'
     });
 
-    return request(app).get(`/api/v1/actors/${actor.id}`)
-      .then(res => {
-        expect(res).toEqual({
-          name: 'Chevy Chase',
-          dob: actor.dob.toISOString(),
-          pob: 'Los Angeles',
-          films: []
-        });
-      });
+    const res = await request(app).get(`/api/v1/actors/${actor.id}`);
+     
+    expect(res.body).toEqual({
+      id: 1,
+      name: 'Chevy Chase',
+      dob: actor.dob.toISOString(),
+      pob: 'Los Angeles',
+      Films: []
+    });
   });
 });
+
 
