@@ -18,7 +18,12 @@ describe('API routes', () => {
       reviewer = response.body;
     });
     it('GETs all reviewers from /api/v1/reviewers', async () => {
-      const response = await request.get('/api/v1/reviewer');
+      const response = await request.get('/api/v1/reviewers');
+      expect(response.status).toBe(200);
+      expect(response.body).toStrictEqual([reviewer]);
+    });
+    it('GET a reviewer by id from /api/v1/reviewers/:id', async () => {
+      const response = await request.get(`/api/v1/reviewers/${reviewer.id}`);
       expect(response.status).toBe(200);
       expect(response.body).toStrictEqual([reviewer]);
     });
