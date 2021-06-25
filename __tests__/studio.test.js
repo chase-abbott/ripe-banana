@@ -45,9 +45,9 @@ describe('demo routes', () => {
     });
 
     const res = await request(app).get('/api/v1/studios');
-    expect(res.body).toEqual({
+    expect(res.body).toEqual([{
       id: 1,
       name: 'Ruiz Brothers'
-    });
+    }]);
   });
 });
