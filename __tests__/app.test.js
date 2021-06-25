@@ -37,5 +37,10 @@ describe('API routes', () => {
       expect(response.status).toBe(200);
       expect(response.body).toStrictEqual([reviewer]);
     });
+    it('DELETEs a reviewer from /api/v1/reviewers', async () => {
+      const response = await request.delete(`/api/v1/reviewers/${reviewer.id}`);
+      expect(response.status).toBe(200);
+      expect(response.body).toStrictEqual([reviewer]);
+    });
   });
 });
