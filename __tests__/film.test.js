@@ -1,7 +1,7 @@
 import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
-import Film from '../models/Film.js';
+import Film from '../models/Film.js/index.js';
 
 describe('demo routes', () => {
   beforeEach(() => {
