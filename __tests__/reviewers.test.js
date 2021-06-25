@@ -39,13 +39,15 @@ describe('Reviewer routes', () => {
     expect(response.body).toStrictEqual([reviewer]);
   });
 
-  it.skip('PUTs an update to a reviewer at /api/v1/reviewers', async () => {
+  it('PUTs an update to a reviewer at /api/v1/reviewers', async () => {
     reviewer.company = 'inferencery';
     const response = await request
       .put(`/api/v1/reviewers/${reviewer.id}`)
       .send(reviewer);
+    reviewer.updatedAt = expect.any(String);
     expect(response.status).toBe(200);
-    expect(response.body).toStrictEqual([reviewer]);
+    expect(response.body).toStrictEqual(reviewer);
+    reviewer = response.body;
   });
 
   it.skip('DELETEs a reviewer from /api/v1/reviewers', async () => {
