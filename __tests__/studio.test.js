@@ -50,4 +50,11 @@ describe('demo routes', () => {
       name: 'Ruiz Brothers'
     }]);
   });
+
+// Paused testing to complete the film resource model and controller
+// Get studio by id depends on this route to be completed
+//continue when FILM RESOURCE IS DONE!!
+
 });
+
+
