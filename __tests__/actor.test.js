@@ -24,7 +24,8 @@ describe('Actor Routes', () => {
     expect(res.body).toEqual({
       id: 1,
       name: 'Taylor the Magician',
-      dob: new Date,
+      dob: actor.dob.toISOString()
+      ,
       pob: 'Disneyland',
       updatedAt: expect.any(String),
       createdAt: expect.any(String),
