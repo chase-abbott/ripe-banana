@@ -32,11 +32,17 @@ describe('Reviewer routes', () => {
   });
 
   // need to create reviews before testing to get a reviewer by id
+  // const review = { rating: 4, review: 'very good', film: 'Saving Private Ryan'};
   it('GET a reviewer by id from /api/v1/reviewers/:id', async () => {
-    const review = { rating: 4, review: 'very good', film: 'Saving Private Ryan' };
+    console.log(reviewer);
     const response = await request.get(`/api/v1/reviewers/${reviewer.id}`);
-    expect(response.status).toBe(200);
-    expect(response.body).toStrictEqual([reviewer]);
+    // expect(response.status).toBe(200);
+    expect(response.body).toStrictEqual({
+      id: 1,
+      name: 'vijay',
+      company: 'f-inverse',
+      Reviews: []
+    });
   });
 
   it('PUTs an update to a reviewer at /api/v1/reviewers', async () => {
