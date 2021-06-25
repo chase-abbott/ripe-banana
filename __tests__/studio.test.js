@@ -4,23 +4,23 @@ import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
 import Film from '../lib/models/Film.js';
 
-describe('demo routes', () => {
+describe.skip('Studio routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
-
+  afterAll(() => {
+    db.close();
+  });
   it('puts a new studio in the database', async () => {
     const studio = {
       name: 'Chase inc',
       city: 'Portland',
       state: 'Oregon',
-      country: 'USA'
+      country: 'USA',
     };
 
-    const postRes = await request(app)
-      .post('/api/v1/studios')
-      .send(studio);
-      
+    const postRes = await request(app).post('/api/v1/studios').send(studio);
+
     expect(postRes.body).toEqual({
       id: 1,
       name: 'Chase inc',
@@ -28,10 +28,9 @@ describe('demo routes', () => {
       state: 'Oregon',
       country: 'USA',
       updatedAt: expect.any(String),
-      createdAt: expect.any(String)
+      createdAt: expect.any(String),
     });
   });
-
 
   it('it gets all studios in the database via GET', async () => {
     await Studio.create({
@@ -42,13 +41,15 @@ describe('demo routes', () => {
     });
 
     const res = await request(app).get('/api/v1/studios');
-    expect(res.body).toEqual([{
-      id: 1,
-      name: 'Ruiz Brothers'
-    }]);
+    expect(res.body).toEqual([
+      {
+        id: 1,
+        name: 'Ruiz Brothers',
+      },
+    ]);
   });
 
-  it('gets a studio by it\'s id', async () => {
+  it("gets a studio by it's id", async () => {
     const postRes = await Studio.create({
       name: 'Ruiz Brothers',
       city: 'Los Angeles',
@@ -59,23 +60,22 @@ describe('demo routes', () => {
     await Film.create({
       title: 'Peaches big adventure',
       studio: 'Ruiz Brothers',
-      released: 2010
+      released: 2010,
     });
 
     const res = await request(app).get(`/api/v1/studios/${postRes.body.id}`);
 
     expect(res.body).toEqual({
       ...postRes.body,
-      films: [{
-        id: 1,
-        title: 'Peaches big adventure'
-      }]
+      films: [
+        {
+          id: 1,
+          title: 'Peaches big adventure',
+        },
+      ],
     });
   });
   // Paused testing to complete the film resource model and controller
   // Get studio by id depends on this route to be completed
   //continue when FILM RESOURCE IS DONE!!
-
 });
-
-
