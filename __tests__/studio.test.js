@@ -50,40 +50,30 @@ describe('Studio routes', () => {
   });
 
   it('gets a studio by it\'s id', async () => {
-    const postRes = await Studio.create({
+    const studio = await Studio.create({
       name: 'Ruiz Brothers',
       city: 'Los Angeles',
       state: 'California',
       country: 'USA',
-    }, { include: [{
-      association: Studio.Film
-    }] });
+    });
 
     await Film.create({
       title: 'Peaches big adventure',
       studio: 'Ruiz Brothers',
-      release: 2010,
-    }, {
-      include: [{
-        association: Film.Studio
-      }]
+      released: 2010,
+      StudioId: studio.id,
     });
 
-    const res = await request(app).get(`/api/v1/studios/${postRes.id}`);
+    const res = await request(app).get('/api/v1/studios/1');
     console.log(res.body);
-
     expect(res.body).toEqual({
       id: 1,
       name: 'Ruiz Brothers',
       city: 'Los Angeles',
       state: 'California',
       country: 'USA',
-      Films: [
-        {
-          id: 1,
-          title: 'Peaches big adventure',
-        },
-      ],
+      Films: [{ id: 1, title: 'Peaches big adventure' }]
     });
+
   });
 });
