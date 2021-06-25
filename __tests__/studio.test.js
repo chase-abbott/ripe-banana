@@ -4,7 +4,7 @@ import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
 import Film from '../lib/models/Film.js';
 
-describe('Studio routes', () => {
+describe.skip('Studio routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -65,7 +65,7 @@ describe('Studio routes', () => {
     });
 
     const res = await request(app).get('/api/v1/studios/1');
-    console.log(res.body);
+
     expect(res.body).toEqual({
       id: 1,
       name: 'Ruiz Brothers',
