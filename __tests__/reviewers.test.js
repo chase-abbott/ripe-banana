@@ -25,7 +25,7 @@ describe('Reviewer routes', () => {
     reviewer = response.body;
   });
 
-  it.skip('GETs all reviewers from /api/v1/reviewers', async () => {
+  it('GETs all reviewers from /api/v1/reviewers', async () => {
     const response = await request.get('/api/v1/reviewers');
     expect(response.status).toBe(200);
     expect(response.body).toStrictEqual([reviewer]);
