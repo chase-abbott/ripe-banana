@@ -1,10 +1,10 @@
-import Studio from '../models/Studio.js';
+import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
 describe('demo routes', () => {
   beforeEach(() => {
-    Studio.sync({ force: true });
+    return db.sync({ force: true });
   });
 
   it('puts a new studio in the database', async () => {
@@ -15,18 +15,20 @@ describe('demo routes', () => {
       country: 'USA'
     };
 
-    return request(app)
+    const postRes = await request(app)
       .post('/api/v1/studios')
-      .send(studio)
-      .then(res => {
-        expect(res.body).toEqual({
-          id: 1,
-          name: 'Chase inc',
-          city: 'Portland',
-          state: 'Oregon',
-          country: 'USA'
-        });
-      });
+      .send(studio);
+      
+    expect(postRes.body).toEqual({
+      id: 1,
+      name: 'Chase inc',
+      city: 'Portland',
+      state: 'Oregon',
+      country: 'USA',
+      createAt: expect.any(Date),
+      updateAt: expect.any(Date)
+    });
+     
 
   });
 });
