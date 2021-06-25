@@ -1,6 +1,7 @@
 
 import request from 'supertest';
 import app from '../lib/app';
+import Actor from '../lib/models/Actor';
 import db from '../lib/utils/db';
 
 
@@ -32,6 +33,20 @@ describe('Actor Routes', () => {
 
     });
   });
+
+  it('get all the actors', async () => {
+    await Actor.create({
+      name: 'Chevy Chase',
+      dob: new Date,
+      pob: 'Los Angeles'
+    });
+    const res = await request(app).get('/api/v1/actors');
+    expect(res.body).toEqual([{
+      id: 1,
+      name: 'Chevy Chase',
+    }]);
+  });
+
 
 });
 
