@@ -2,6 +2,7 @@ import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import Film from '../lib/models/Film.js';
+import Studio from '../lib/models/Studio.js';
 
 describe('Film routes', () => {
   beforeEach(() => {
@@ -24,6 +25,7 @@ describe('Film routes', () => {
       title: 'Peaches big adventure',
       studio: 'Big dog productions',
       released: 2010,
+      StudioId: null,
       updatedAt: expect.any(String),
       createdAt: expect.any(String),
     });
@@ -40,7 +42,7 @@ describe('Film routes', () => {
 
     await Film.create({
       title: 'Peaches big adventure',
-      studio: studio.id,
+      StudioId: studio.id,
       released: 2010,
     });
 
@@ -49,8 +51,8 @@ describe('Film routes', () => {
     expect(res.body).toEqual([
       {
         id: 1,
-        title: '',
-        studio: { id: studio.id, name: '' },
+        title: 'Peaches big adventure',
+        Studio: { id: studio.id, name: '' },
         released: 2010,
 
       }
