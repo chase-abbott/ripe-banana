@@ -47,6 +47,23 @@ describe('Actor Routes', () => {
     }]);
   });
 
+  it('gets one actor by their id', async () => {
+    const actor = await Actor.create({
+      name: 'Chevy Chase',
+      dob: new Date,
+      pob: 'Los Angeles',
+    });
 
+    const res = await request(app).get(`/api/v1/actors/${actor.id}`);
+     
+    expect(res.body).toEqual({
+      id: 1,
+      name: 'Chevy Chase',
+      dob: actor.dob.toISOString(),
+      pob: 'Los Angeles',
+      Films: []
+    });
+  });
 });
+
 
