@@ -1,8 +1,9 @@
 import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
+import Film from '../lib/models/Film.js';
 
-describe.skip('Film routes', () => {
+describe('Film routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -27,4 +28,38 @@ describe.skip('Film routes', () => {
       createdAt: expect.any(String),
     });
   });
+
+  it('gets all films from the database', async () => {
+
+    const studio = await Studio.create({
+      name: '',
+      city: '',
+      state: '',
+      country: ''
+    });
+
+    await Film.create({
+      title: 'Peaches big adventure',
+      studio: studio.id,
+      released: 2010,
+    });
+
+
+    const res = await request(app).get('/api/v1/films');
+    expect(res.body).toEqual([
+      {
+        id: 1,
+        title: '',
+        studio: { id: studio.id, name: '' },
+        released: 2010,
+
+      }
+    ]);
+  });
+
+
+
+
+
+
 });
