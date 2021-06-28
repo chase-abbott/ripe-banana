@@ -56,6 +56,7 @@ describe('Reviews Routes', () => {
     review.createdAt = expect.any(String);
     expect(response.status).toBe(200);
     expect(response.body).toStrictEqual(review);
+    review = response.body;
   });
 
   it('GETs reviews from /api/v1/reviews', async () => {
