@@ -92,7 +92,7 @@ describe('Reviewer routes', () => {
     reviewer = response.body;
   });
 
-  it('DELETEs a reviewer from /api/v1/reviewers', async () => {
+  it.skip('DELETEs a reviewer from /api/v1/reviewers', async () => {
     const response = await request.delete(`/api/v1/reviewers/${reviewer.id}`);
     console.log(response.body);
     expect(response.status).toBe(200);
