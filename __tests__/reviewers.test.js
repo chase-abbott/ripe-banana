@@ -4,7 +4,7 @@ import app from '../lib/app.js';
 
 const request = supertest(app);
 
-describe('Reviewer routes', () => {
+describe.skip('Reviewer routes', () => {
   beforeAll(() => {
     return db.sync({ force: true });
   });
@@ -34,14 +34,13 @@ describe('Reviewer routes', () => {
   // need to create reviews before testing to get a reviewer by id
   // const review = { rating: 4, review: 'very good', film: 'Saving Private Ryan'};
   it('GET a reviewer by id from /api/v1/reviewers/:id', async () => {
-    console.log(reviewer);
     const response = await request.get(`/api/v1/reviewers/${reviewer.id}`);
     // expect(response.status).toBe(200);
     expect(response.body).toStrictEqual({
       id: 1,
       name: 'vijay',
       company: 'f-inverse',
-      Reviews: []
+      Reviews: [],
     });
   });
 
