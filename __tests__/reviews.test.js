@@ -39,11 +39,12 @@ describe('Reviews Routes', () => {
   afterAll(() => {
     return db.close();
   });
-
+  let film = {};
+  let review = {};
   it('POSTs a review to /api/v1/reviews', async () => {
     const reviewer = await Reviewer.findByPk(1);
-    const film = await Film.findByPk(1);
-    const review = {
+    film = await Film.findByPk(1);
+    review = {
       rating: 4,
       reviewer: reviewer.id,
       review: 'this is a test to post a review',
@@ -55,5 +56,18 @@ describe('Reviews Routes', () => {
     review.createdAt = expect.any(String);
     expect(response.status).toBe(200);
     expect(response.body).toStrictEqual(review);
+  });
+
+  it('GETs reviews from /api/v1/reviews', async () => {
+    const expected = {
+      id: review.id,
+      rating: review.rating,
+      review: review.review,
+      Film: { id: film.id, title: film.title },
+    };
+    const response = await request.get('/api/v1/reviews');
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBeLessThanOrEqual(100);
+    expect(response.body).toStrictEqual([expected]);
   });
 });
