@@ -1,12 +1,35 @@
+/* eslint-disable no-console */
 import db from '../lib/utils/db.js';
 import supertest from 'supertest';
 import app from '../lib/app.js';
+import Film from '../lib/models/Film.js';
+import Studio from '../lib/models/Studio.js';
+import Review from '../lib/models/Review.js';
 
 const request = supertest(app);
 
-describe.skip('Reviewer routes', () => {
+describe('Reviewer routes', () => {
   beforeAll(() => {
-    return db.sync({ force: true });
+    return db
+      .sync({ force: true })
+      .then(() => Studio.findByPk(1))
+      .then((studio) => {
+        if (!studio)
+          Studio.create({
+            name: 'Chase inc',
+            city: 'Portland',
+            state: 'Oregon',
+            country: 'USA',
+          });
+      })
+      .then(() => Film.findByPk(1))
+      .then((film) => {
+        if (!film)
+          Film.create({ title: 'Fight Club', studio: 1, released: 1999 });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
 
   afterAll(() => {
@@ -31,17 +54,31 @@ describe.skip('Reviewer routes', () => {
     expect(response.body).toStrictEqual([reviewer]);
   });
 
-  // need to create reviews before testing to get a reviewer by id
-  // const review = { rating: 4, review: 'very good', film: 'Saving Private Ryan'};
   it('GET a reviewer by id from /api/v1/reviewers/:id', async () => {
+    const film = await Film.findByPk(1);
+    let review = {
+      rating: 4,
+      reviewer: reviewer.id,
+      review: 'this is a test to post a review',
+      film: film.id,
+    };
+    review = await Review.create(review);
+    const expected = {
+      id: reviewer.id,
+      name: reviewer.name,
+      company: reviewer.company,
+      Reviews: [
+        {
+          id: review.id,
+          rating: review.rating,
+          review: review.review,
+          Film: { id: film.id, title: film.title },
+        },
+      ],
+    };
     const response = await request.get(`/api/v1/reviewers/${reviewer.id}`);
-    // expect(response.status).toBe(200);
-    expect(response.body).toStrictEqual({
-      id: 1,
-      name: 'vijay',
-      company: 'f-inverse',
-      Reviews: [],
-    });
+    expect(response.status).toBe(200);
+    expect(response.body).toStrictEqual(expected);
   });
 
   it('PUTs an update to a reviewer at /api/v1/reviewers', async () => {
