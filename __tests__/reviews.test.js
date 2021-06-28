@@ -70,4 +70,10 @@ describe('Reviews Routes', () => {
     expect(response.body.length).toBeLessThanOrEqual(100);
     expect(response.body).toStrictEqual([expected]);
   });
+
+  it('DELETEs a review from /api/v1/reviews/:id', async () => {
+    const response = await request.delete(`/api/v1/reviews/${review.id}`);
+    expect(response.status).toBe(200);
+    expect(response.body).toStrictEqual({ numRows: 1 });
+  });
 });
