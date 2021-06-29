@@ -1,10 +1,26 @@
+/* eslint-disable no-console */
 import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
+import Studio from '../lib/models/Studio.js';
 
-describe.skip('Film routes', () => {
+describe('Film routes', () => {
   beforeEach(() => {
-    return db.sync({ force: true });
+    return db
+      .sync({ force: true })
+      .then(() => Studio.findByPk(1))
+      .then((studio) => {
+        if (!studio)
+          Studio.create({
+            name: 'Chase inc',
+            city: 'Portland',
+            state: 'Oregon',
+            country: 'USA',
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   });
   afterAll(() => {
     db.close();
@@ -12,7 +28,7 @@ describe.skip('Film routes', () => {
   it('puts a new film in the database', async () => {
     const film = {
       title: 'Peaches big adventure',
-      studio: 'Big dog productions',
+      studio: 1,
       released: 2010,
     };
 
@@ -21,7 +37,7 @@ describe.skip('Film routes', () => {
     expect(postRes.body).toEqual({
       id: 1,
       title: 'Peaches big adventure',
-      studio: 'Big dog productions',
+      studio: 1,
       released: 2010,
       updatedAt: expect.any(String),
       createdAt: expect.any(String),
