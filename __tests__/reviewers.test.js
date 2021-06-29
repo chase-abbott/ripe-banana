@@ -36,6 +36,7 @@ describe('Reviewer routes', () => {
     return db.close();
   });
 
+  let review = {};
   let reviewer = { name: 'vijay', company: 'f-inverse' };
 
   it('POSTs a reviewer to /api/v1/reviewers', async () => {
@@ -56,7 +57,7 @@ describe('Reviewer routes', () => {
 
   it('GET a reviewer by id from /api/v1/reviewers/:id', async () => {
     const film = await Film.findByPk(1);
-    let review = {
+    review = {
       rating: 4,
       reviewer: reviewer.id,
       review: 'this is a test to post a review',
@@ -92,9 +93,13 @@ describe('Reviewer routes', () => {
     reviewer = response.body;
   });
 
-  it.skip('DELETEs a reviewer from /api/v1/reviewers', async () => {
-    const response = await request.delete(`/api/v1/reviewers/${reviewer.id}`);
-    console.log(response.body);
+  it('DELETEs a reviewer from /api/v1/reviewers', async () => {
+    let response = await request.delete(`/api/v1/reviewers/${reviewer.id}`);
+    expect(response.status).toBe(500);
+
+    await Review.destroy({ where: { id: review.id } });
+
+    response = await request.delete(`/api/v1/reviewers/${reviewer.id}`);
     expect(response.status).toBe(200);
     expect(response.body).toStrictEqual({ numRows: 1 });
   });
