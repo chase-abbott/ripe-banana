@@ -82,7 +82,7 @@ describe('Film routes', () => {
       company: 'f-inverse'
     });
 
-    const review = await Review.create({
+    await Review.create({
       rating: 4,
       reviewer: reviewer.id,
       review: 'this is a test to post a review',
@@ -94,27 +94,29 @@ describe('Film routes', () => {
     const expected = {
       title: 'Peaches big adventure',
       released: 2010,
-      studio: {
+      Studio: {
         id: 1,
         name: 'Chase inc'
       },
-      cast: [{
+      Actors: [{
         id: 1,
         name: 'Taylor the Magician'
       }],
-      reviews: [{
+      Reviews: [{
         id: 1,
         rating: 4,
         review: 'this is a test to post a review',
-        reviewer: {
+        Reviewer: {
           id: 1,
           name: 'vijay' 
         }
       }]
     };
 
-    const res = await request(app).get('/api/v1/films/1');
+    
 
+    const res = await request(app).get('/api/v1/films/1');
+    console.log(res.body);
     expect(res.body).toEqual(expected);
   });
 });
