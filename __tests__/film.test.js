@@ -3,6 +3,8 @@ import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
+import Film from '../lib/models/Film.js';
+
 
 describe('Film routes', () => {
   beforeEach(() => {
@@ -42,5 +44,21 @@ describe('Film routes', () => {
       updatedAt: expect.any(String),
       createdAt: expect.any(String),
     });
+  });
+
+  it('get all the films', async () => {
+    await Film.create({
+      id: 1,
+      title: 'All the movies',
+      studio: 1,
+      released: 2021,
+    });
+    const res = await request(app).get('/api/v1/films');
+    expect(res.body).toEqual([
+      {
+        id: 1,
+        title: 'All the movies'
+      }
+    ]);
   });
 });
