@@ -7,8 +7,8 @@
   "scripts": {
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --verbose --runInBand",
     "test:watch": "npm run test -- --watch",
-    "start": "node -r dotenv/config server.js",
-    "start:watch": "nodemon -r dotenv/config server.js",
+    "start": "node server.js",
+    "start:watch": "nodemon server.js",
     "setup-heroku": "npm run create-heroku-db && npm run create-heroku-db -- --as DEV_DATABASE && heroku config:set PGSSLMODE=require && npm run get-dev-db-url",
     "create-heroku-db": "heroku addons:create heroku-postgresql:hobby-dev",
     "get-dev-db-url": "heroku config:get DEV_DATABASE_URL",
