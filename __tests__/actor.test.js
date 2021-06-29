@@ -3,7 +3,7 @@ import app from '../lib/app';
 import Actor from '../lib/models/Actor';
 import db from '../lib/utils/db';
 
-describe.skip('Actor Routes', () => {
+describe('Actor Routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -53,7 +53,6 @@ describe.skip('Actor Routes', () => {
     const res = await request(app).get(`/api/v1/actors/${actor.id}`);
 
     expect(res.body).toEqual({
-      id: 1,
       name: 'Chevy Chase',
       dob: actor.dob.toISOString(),
       pob: 'Los Angeles',
