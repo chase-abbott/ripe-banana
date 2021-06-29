@@ -101,8 +101,6 @@ describe('Reviewer routes', () => {
 
     response = await request.delete(`/api/v1/reviewers/${reviewer.id}`);
     expect(response.status).toBe(200);
-    expect(response.body).toStrictEqual({
-      message: 'successfully deleted reviewer',
-    });
+    expect(response.body).toStrictEqual({ numRows: 1 });
   });
 });
