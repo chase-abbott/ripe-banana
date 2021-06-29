@@ -5,7 +5,6 @@ import app from '../lib/app.js';
 import Film from '../lib/models/Film.js';
 import Studio from '../lib/models/Studio.js';
 import Review from '../lib/models/Review.js';
-//import Reviewer from '../lib/models/Reviewer.js';
 
 const request = supertest(app);
 
