@@ -4,7 +4,7 @@ import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
 import Film from '../lib/models/Film.js';
 
-describe.skip('Studio routes', () => {
+describe('Studio routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -49,7 +49,7 @@ describe.skip('Studio routes', () => {
     ]);
   });
 
-  it('gets a studio by it\'s id', async () => {
+  it('gets a studio by its id', async () => {
     const studio = await Studio.create({
       name: 'Ruiz Brothers',
       city: 'Los Angeles',
@@ -59,7 +59,7 @@ describe.skip('Studio routes', () => {
 
     await Film.create({
       title: 'Peaches big adventure',
-      studio: 'Ruiz Brothers',
+      studio: 1,
       released: 2010,
       StudioId: studio.id,
     });
@@ -72,8 +72,7 @@ describe.skip('Studio routes', () => {
       city: 'Los Angeles',
       state: 'California',
       country: 'USA',
-      Films: [{ id: 1, title: 'Peaches big adventure' }]
+      Films: [{ id: 1, title: 'Peaches big adventure' }],
     });
-
   });
 });
