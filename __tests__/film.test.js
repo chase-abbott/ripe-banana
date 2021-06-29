@@ -113,10 +113,8 @@ describe('Film routes', () => {
       }]
     };
 
-    
-
     const res = await request(app).get('/api/v1/films/1');
-    console.log(res.body);
+
     expect(res.body).toEqual(expected);
   });
 });
