@@ -3,7 +3,7 @@ import request from 'supertest';
 import app from '../lib/app.js';
 import Film from '../lib/models/Film.js';
 
-describe.skip('Film routes', () => {
+describe('Film routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -33,7 +33,6 @@ describe.skip('Film routes', () => {
     await Film.create({
       id: 1,
       title: 'All the movies',
-      studio: 'Main Studio',
       released: 2021,
     });
     const res = await request(app).get('/api/v1/films');
